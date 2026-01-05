@@ -1,0 +1,411 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;700&display=swap");
+
+:root {
+  color-scheme: light;
+  --bg: #0f0a0a;
+  --bg-2: #1d1111;
+  --panel: #1f1414;
+  --panel-alt: #2b1a1a;
+  --accent: #e53b44;
+  --accent-2: #f7d46f;
+  --ink: #f7f0e9;
+  --muted: #c3b7ae;
+  --shadow: #0a0505;
+  --grid: rgba(255, 255, 255, 0.04);
+  --border: #402020;
+  --glow: rgba(229, 59, 68, 0.35);
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  background: radial-gradient(circle at 30% 20%, rgba(229, 59, 68, 0.12), transparent 35%),
+    radial-gradient(circle at 80% 10%, rgba(247, 212, 111, 0.15), transparent 35%),
+    linear-gradient(180deg, #0f0a0a 0%, #140c0c 30%, #120b0b 70%, #0f0a0a 100%);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+.page {
+  position: relative;
+  padding: 36px clamp(18px, 4vw, 48px) 64px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.8), transparent 70%);
+  z-index: 0;
+}
+
+.bg-noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  z-index: 0;
+}
+
+.panel {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(145deg, var(--panel), var(--panel-alt));
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(18px, 3vw, 28px);
+  margin-bottom: 24px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.02), 0 0 0 6px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.panel::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.hero {
+  text-align: left;
+}
+
+.hero h1 {
+  margin: 10px 0 12px;
+  font-size: clamp(32px, 5vw, 44px);
+  line-height: 1.1;
+  font-family: "Press Start 2P", monospace;
+  letter-spacing: -1px;
+}
+
+.highlight {
+  color: var(--accent-2);
+  text-shadow: 0 0 12px var(--glow);
+}
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.lede {
+  max-width: 720px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.6;
+  margin: 12px 0 18px;
+}
+
+.lede.alt {
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+.btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.btn.sprite-btn .sprite {
+  width: 28px;
+  height: 28px;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #e53b44, #b7222c);
+  box-shadow: 0 8px 0 #70161d, 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.btn.ghost {
+  background: rgba(192, 26, 26, 0.04);
+  box-shadow: 0 8px 0 #1a0f0f, 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.sprites {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.sprite-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  min-width: 96px;
+}
+
+.sprite {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.sprite-cyndaquil {
+  background-image: url("/cyndaquil.gif");
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.section-head h2 {
+  margin: 0;
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(18px, 3vw, 22px);
+}
+
+.tag {
+  font-size: 13px;
+  color: var(--accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.stats .stat-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.stat-card {
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+.label {
+  margin: 0 0 6px;
+  color: var(--accent-2);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.value {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.projects .project-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.project-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px;
+  min-height: 220px;
+  box-shadow: inset 0 0 0 3px #1a0f0f, 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.project-card h3 {
+  margin: 6px 0 10px;
+  font-size: 20px;
+  font-family: "Press Start 2P", monospace;
+}
+
+.summary {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.status {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--accent-2);
+  text-transform: uppercase;
+}
+
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(229, 59, 68, 0.12);
+  border: 1px solid rgba(229, 59, 68, 0.3);
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.link {
+  color: var(--accent-2);
+  text-decoration: none;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.contact {
+  text-align: left;
+}
+
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.contact-form {
+  margin-top: 18px;
+  display: grid;
+  gap: 12px;
+}
+
+.field-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-row label {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.field-row input,
+.field-row textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: var(--ink);
+  font: inherit;
+}
+
+.field-row input:focus,
+.field-row textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.form-note {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.contact-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.contact-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 0 #1a0f0f;
+}
+
+.contact-chip svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--accent-2);
+}
+
+@media (max-width: 640px) {
+  .meta-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn,
+  .contact-chip {
+    width: 100%;
+    justify-content: center;
+  }
+}
