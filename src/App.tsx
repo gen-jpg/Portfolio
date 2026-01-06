@@ -1,4 +1,5 @@
 import React from "react";
+import { supabase } from './supabaseClient'
 
 const projects = [
   {
@@ -9,8 +10,8 @@ const projects = [
     status: "Featured"
   },
   {
-    title: "RxCycle",
-    summary: "B2B platform for exchange and management of pharmaceutical products in Canada.",
+    title: "[Private Project]",
+    summary: "B2B platform for exchange (buying/selling) and management of products.",
     tech: ["React", "MongoDB", "API integrations", "Internal systems"],
     link: "#",
     status: "Private"
@@ -55,6 +56,46 @@ const icons = {
 };
 
 function App() {
+  const [formState, setFormState] = React.useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [submitMessage, setSubmitMessage] = React.useState('');
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitMessage('');
+
+    try {
+      const { error } = await supabase.from('inquiries').insert([
+        {
+          name: formState.name,
+          email: formState.email,
+          message: formState.message
+        }
+      ]);
+
+      if (error) throw error;
+
+      setSubmitMessage('✓ Inquiry sent! I\'ll get back to you soon.');
+      setFormState({ name: '', email: '', message: '' });
+    } catch (err) {
+      console.error(err);
+      setSubmitMessage('✗ Failed to send. Try again or email directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <div className="page">
       <div className="bg-grid" aria-hidden />
@@ -149,11 +190,11 @@ function App() {
       <section className="panel contact" id="contact">
         <div className="section-head">
           <h2>Contact</h2>
-          <span className="tag">Initiate mission</span>
+          <span className="tag">Let's be partners!</span>
         </div>
         <p className="lede">
-          Ready for new quests: landing pages, dashboards, design systems, and polished product UIs.
-          Send the mission, I will respond quickly.
+          Ready for new quests: landing pages, single/multiple page systems, and functions that have you covered from start to finish.
+          Send the mission, I will be your developer ally!
         </p>
         <div className="contact-row">
           <a className="contact-chip" href="https://www.linkedin.com/in/genevivemacrayo/" aria-label="LinkedIn">
@@ -169,23 +210,27 @@ function App() {
             <span>GitHub</span>
           </a>
         </div>
-        <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
+        <form className="contact-form" onSubmit={handleSubmit}>
           <div className="field-row">
             <label htmlFor="name">Name</label>
-            <input id="name" name="name" type="text" placeholder="Your name" required />
+            <input id="name" name="name" type="text" placeholder="Your name (e.g. John Doe)" value={formState.name} onChange={handleFormChange} required />
           </div>
           <div className="field-row">
             <label htmlFor="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="you@example.com" required />
+            <input id="email" name="email" type="email" placeholder="e.g. you@example.com" value={formState.email} onChange={handleFormChange} required />
           </div>
           <div className="field-row">
             <label htmlFor="message">Inquiry</label>
-            <textarea id="message" name="message" rows={4} placeholder="Tell me about your project" required />
+            <textarea id="message" name="message" rows={4} placeholder="Tell me about your project (e.g. landing page, admin panel, etc.)" value={formState.message} onChange={handleFormChange} required />
           </div>
-          <button className="btn primary" type="submit">Send inquiry</button>
-          <p className="form-note">
-            Suggestion: connect this form to Formspree, Netlify Forms, or a Supabase table (e.g., table "inquiries" with columns name/email/message) to store submissions.
-          </p>
+          <button className="btn primary" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Sending...' : 'Send inquiry'}
+          </button>
+          {submitMessage && (
+            <p className="form-note" style={{ color: submitMessage.includes('✓') ? '#4ade80' : '#f87171' }}>
+              {submitMessage}
+            </p>
+          )}
         </form>
       </section>
     </div>
